@@ -17,7 +17,7 @@ app.use('/user', usersRouter);
 
 app.use((err, _req, res, _next) => {
   const { status, message } = err;
-  console.log('api-err: ', err);
+  console.log('api-err: ', err.status, err.message);
   res.status(status).json({ message });
 });
 

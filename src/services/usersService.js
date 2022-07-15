@@ -42,6 +42,14 @@ const usersService = {
 
     return newUser;
   },
+
+  list: async () => {
+    const usersList = await db.User.findAll({
+      attributes: { exclude: ['password'] },
+    });
+
+    return usersList;
+  },
 };
 
 module.exports = usersService;

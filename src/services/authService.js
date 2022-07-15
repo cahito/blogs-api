@@ -10,17 +10,17 @@ const authService = {
     }
   },
 
-  login: async ({ email, password }) => {
+  login: async ({ email, password: bodyPass }) => {
     const user = await db.User.findOne({
       attributes: { exclude: ['id', 'image', 'createdAt', 'updatedAt'] },
       where: { email },
     });
-    if (!user || user.password !== password) {
+    if (!user || user.password !== bodyPass) {
       const error = new Error('Invalid fields');
       error.status = 400;
       throw error;
     }
-    const { _password, ...userWithoutPassword } = user.dataValues;
+    const { password, ...userWithoutPassword } = user.dataValues;
     const token = jwtService.createToken(userWithoutPassword);
 
     return token;
