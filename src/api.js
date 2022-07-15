@@ -3,6 +3,7 @@ const express = require('express');
 
 const authRouter = require('./routers/authRouter');
 const usersRouter = require('./routers/usersRouter');
+const categoriesRouter = require('./routers/categoriesRouter');
 
 // const authController = require('./controllers/authController');
 
@@ -12,6 +13,7 @@ app.use(express.json());
 
 app.use('/login', authRouter);
 app.use('/user', usersRouter);
+app.use('/categories', categoriesRouter);
 
 // app.use(authController.validateToken);
 
