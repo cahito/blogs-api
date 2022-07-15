@@ -25,6 +25,12 @@ const categoriesService = {
 
     return newCategory;
   },
+
+  list: () => {
+    const categories = db.Category.findAll();
+
+    return categories;
+  },
 };
 
 module.exports = categoriesService;

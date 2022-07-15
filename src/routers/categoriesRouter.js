@@ -6,7 +6,7 @@ const categoriesController = require('../controllers/categoriesController');
 const router = Router();
 
 router.post('/', validateToken, categoriesController.create);
-// router.get('/', validateToken, usersController.list);
-// router.get('/:id', validateToken, usersController.getById);
+router.get('/', validateToken, categoriesController.list);
+// router.get('/:id', validateToken, categoriesController.getById);
 
 module.exports = router;
