@@ -24,6 +24,16 @@ const postsController = {
 
     res.status(200).json(post);
   },
+
+  edit: async (req, res) => {
+    const token = req.headers.authorization;
+    const data = req.body;
+    const user = await postsService.validateUserThruLogin(token);
+    await postsService.validateEditionValues(data);
+    const editedPost = await postsService.edit(user);
+
+    res.status(200).json(editedPost);
+  },
 };
 
 module.exports = postsController;
