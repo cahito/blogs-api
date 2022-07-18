@@ -25,8 +25,6 @@ const postsService = {
       attributes: { exclude: ['name'] },
     });
     const existingCategories = data.map((Category) => Category.dataValues.id);
-    console.log('existingCategories no validateCategories', existingCategories);
-    console.log('categoryIds no validateCategories', categoryIds);
 
     if (!categoryIds.every((id) => existingCategories
       .includes(id))) {
@@ -52,10 +50,33 @@ const postsService = {
   },
 
   /* list: () => {
-    const categories = db.Category.findAll();
-error.details[0].message
-    return categories;
+    const postsList = db.BlogPost.findAll({
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'category', through: {
+          attributes: [],
+          where: { () =>  }
+        } },
+      ],
+    });
+
+    return postsList;
   }, */
+
+  getById: async (id) => {
+    const post = await db.BlogPost.findByPk(id, {
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+      ],
+    });
+    if (!post) {
+      const error = new Error('Post does not exist');
+      error.status = 404;
+      throw error;
+    }
+
+    return post;
+  },
 };
 
 module.exports = postsService;

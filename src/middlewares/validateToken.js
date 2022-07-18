@@ -3,7 +3,6 @@ const jwt = require('jsonwebtoken');
 
 const validateToken = (req, _res, next) => {
   const token = req.headers.authorization;
-  console.log('token: ', token);
   if (!token) {
     const error = new Error('Token not found');
     error.status = 401;
