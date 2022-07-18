@@ -8,7 +8,7 @@ const PostCategory = (sequelize, DataTypes) => {
       primaryKey: true,
       type: DataTypes.INTEGER,
     },
-  });
+  }, { timestamps: false });
 
   PostCategory.associate = (db) => {
     db.Category.belongsToMany(db.BlogPost, { as: 'blogPost', through: PostCategory });
