@@ -71,13 +71,7 @@ const postsService = {
       include:
       [
         { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
-        {
-          model: db.Category,
-          as: 'categories',
-          through: {
-            attributes: [],
-          },
-        },
+        { model: db.Category, as: 'categories', through: { attributes: [] } },
       ],
     });
     console.log(postsList);
@@ -88,6 +82,7 @@ const postsService = {
     const post = await db.BlogPost.findByPk(id, {
       include: [
         { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'categories', through: { attributes: [] } },
       ],
     });
     if (!post) {
