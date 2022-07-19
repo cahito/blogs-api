@@ -5,7 +5,9 @@ const Category = (sequelize, DataTypes) => {
       type: DataTypes.INTEGER
     },
     name: DataTypes.STRING,
-  }, { timestamps: false });
+  }, {
+    timestamps: false,
+   });
 
   return Category;
 };

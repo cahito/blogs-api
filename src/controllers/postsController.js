@@ -7,6 +7,7 @@ const postsController = {
     await postsService.validateCategories(req.body);
     const userId = await getUserIdFromToken(req.headers.authorization);
     const newPost = await postsService.create(data, userId);
+    console.log(newPost.dataValues);
     await postsService.newPostCategory(newPost.dataValues.id, data.categoryIds);
 
     res.status(201).json(newPost);

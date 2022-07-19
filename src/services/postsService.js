@@ -53,9 +53,9 @@ const postsService = {
   },
 
   create: async (data, userId) => {
-    const { title, categoryIds, content } = data;
+    const { title, content } = data;
     const newPost = await db.BlogPost.create({
-      title, categoryIds, content, userId,
+      title, content, userId,
     });
 
     return newPost;
