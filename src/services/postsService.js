@@ -97,12 +97,36 @@ const postsService = {
 
   validateUserThruLogin: async (token, postId) => {
     const userId = await getUserIdFromToken(token);
-    const userInPost = await this.getById(postId).user.id;
+    const originalPost = await db.BlogPost.findByPk(postId);
+    const userInPost = originalPost.userId;
+
     if (userId !== userInPost) {
       const error = new Error('Unauthorized user');
       error.status = 401;
       throw error;
     }
+
+    return true;
+  },
+
+  edit: async (data, postId) => {
+    const { title, content } = data;
+    await db.BlogPost.update({
+      title,
+      content,
+    }, {
+      where: {
+        id: postId,
+      },
+    });
+    const editedPost = await db.BlogPost.findByPk(postId, {
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'categories', through: { attributes: [] } },
+      ],
+    });
+
+    return editedPost;
   },
 };
 

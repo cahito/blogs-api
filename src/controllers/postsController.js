@@ -30,9 +30,9 @@ const postsController = {
     const postId = req.params.id;
     const token = req.headers.authorization;
     const data = req.body;
-    const user = await postsService.validateUserThruLogin(token, postId);
+    await postsService.validateUserThruLogin(token, postId);
     await postsService.validateEditionValues(data);
-    const editedPost = await postsService.edit(user);
+    const editedPost = await postsService.edit(data, postId);
 
     res.status(200).json(editedPost);
   },
