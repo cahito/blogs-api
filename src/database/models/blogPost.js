@@ -17,7 +17,7 @@ const BlogPost = (sequelize, DataTypes) => {
   });
 
   BlogPost.associate = (db) => {
-    BlogPost.belongsTo(db.User, { as: 'users' })
+    BlogPost.belongsTo(db.User, { as: 'user' })
   }
 
   return BlogPost;

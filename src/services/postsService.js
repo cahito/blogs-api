@@ -75,7 +75,7 @@ const postsService = {
         { model: db.Category, as: 'categories', through: { attributes: [] } },
       ],
     });
-    console.log(postsList);
+
     return postsList;
   },
 
