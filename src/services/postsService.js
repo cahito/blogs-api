@@ -1,4 +1,5 @@
 const Joi = require('joi');
+const { Op } = require('sequelize');
 const db = require('../database/models');
 const getUserIdFromToken = require('../middlewares/getUserIdFromToken');
 
@@ -151,6 +152,23 @@ const postsService = {
       },
     });
 
+    return result;
+  },
+
+  search: async (q) => {
+    console.log('Esse é o q, no postsService.search: ', q);
+    let result = [];
+    if (!q || q.length === 0) return postsService.list();
+
+    [result] = await db.BlogPost.findAll({
+      where: {
+        [Op.or]: [
+          { title: { [Op.like]: `%${q}%` } },
+          { content: { [Op.like]: `%${q}%` } },
+        ],
+      },
+    });
+    console.log('result no retorno do search: ', result);
     return result;
   },
 };

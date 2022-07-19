@@ -7,6 +7,7 @@ const router = Router();
 
 router.post('/', validateToken, postsController.create);
 router.get('/', validateToken, postsController.list);
+router.get('/search', validateToken, postsController.search);
 router.get('/:id', validateToken, postsController.getById);
 router.put('/:id', validateToken, postsController.edit);
 router.delete('/:id', validateToken, postsController.delete);
