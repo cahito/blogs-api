@@ -7,7 +7,6 @@ const postsController = {
     await postsService.validateCategories(req.body);
     const userId = await getUserIdFromToken(req.headers.authorization);
     const newPost = await postsService.create(data, userId);
-    console.log(newPost.dataValues);
     await postsService.newPostCategory(newPost.dataValues.id, data.categoryIds);
 
     res.status(201).json(newPost);
@@ -35,6 +34,16 @@ const postsController = {
     const editedPost = await postsService.edit(data, postId);
 
     res.status(200).json(editedPost);
+  },
+
+  delete: async (req, res) => {
+    const postId = req.params.id;
+    const token = req.headers.authorization;
+    await postsService.postExists(postId);
+    await postsService.validateUserThruLogin(token, postId);
+    await postsService.delete(postId);
+
+    res.status(204).json();
   },
 };
 

@@ -98,7 +98,7 @@ const postsService = {
   validateUserThruLogin: async (token, postId) => {
     const userId = await getUserIdFromToken(token);
     const originalPost = await db.BlogPost.findByPk(postId);
-    const userInPost = originalPost.userId;
+    const userInPost = originalPost.dataValues.userId;
 
     if (userId !== userInPost) {
       const error = new Error('Unauthorized user');
@@ -127,6 +127,31 @@ const postsService = {
     });
 
     return editedPost;
+  },
+
+  postExists: async (postId) => {
+    const postExists = await db.BlogPost.findByPk(postId);
+    if (!postExists) {
+      const error = new Error('Post does not exist');
+      error.status = 404;
+      throw error;
+    }
+  },
+
+  delete: async (postId) => {
+    const postExists = db.BlogPost.findByPk(postId);
+    if (!postExists) {
+      const error = new Error('Post does not exist');
+      error.status = 404;
+      throw error;
+    }
+    const result = await db.BlogPost.destroy({
+      where: {
+        id: postId,
+      },
+    });
+
+    return result;
   },
 };
 
