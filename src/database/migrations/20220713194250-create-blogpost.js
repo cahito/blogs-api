@@ -24,6 +24,8 @@ module.exports = {
           key: 'id',
         },
         type: Sequelize.INTEGER,
+        onUpdate: 'CASCADE',
+        onDelete: 'CASCADE',
       },
       published: {
         allowNull: false,

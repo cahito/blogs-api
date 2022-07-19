@@ -1,5 +1,6 @@
 const usersService = require('../services/usersService');
 const authService = require('../services/authService');
+const getUserIdFromToken = require('../middlewares/getUserIdFromToken');
 
 const usersController = {
   create: async (req, res) => {
@@ -21,6 +22,14 @@ const usersController = {
     const user = await usersService.getById(id);
 
     res.status(200).json(user);
+  },
+
+  delete: async (req, res) => {
+    const token = req.headers.authorization;
+    const userId = await getUserIdFromToken(token);
+    await usersService.delete(userId);
+
+    res.status(204).json();
   },
 };
 

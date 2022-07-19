@@ -8,5 +8,6 @@ const router = Router();
 router.post('/', usersController.create);
 router.get('/', validateToken, usersController.list);
 router.get('/:id', validateToken, usersController.getById);
+router.delete('/me', validateToken, usersController.delete);
 
 module.exports = router;
