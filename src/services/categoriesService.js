@@ -1,7 +1,7 @@
 const Joi = require('joi');
 const db = require('../database/models');
 
-const postsService = {
+const categoriesService = {
   validateNewCategory: (data) => {
     const schema = Joi.object({
       name: Joi.string().required(),
@@ -26,11 +26,11 @@ const postsService = {
     return newCategory;
   },
 
-  /* list: () => {
+  list: () => {
     const categories = db.Category.findAll();
 
     return categories;
-  }, */
+  },
 };
 
-module.exports = postsService;
+module.exports = categoriesService;

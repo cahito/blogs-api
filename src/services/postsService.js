@@ -1,5 +1,6 @@
 const Joi = require('joi');
 const db = require('../database/models');
+const getUserIdFromToken = require('../middlewares/getUserIdFromToken');
 
 const postsService = {
   validateNewPost: (data) => {
@@ -92,6 +93,16 @@ const postsService = {
     }
 
     return post;
+  },
+
+  validateUserThruLogin: async (token, postId) => {
+    const userId = await getUserIdFromToken(token);
+    const userInPost = await this.getById(postId).user.id;
+    if (userId !== userInPost) {
+      const error = new Error('Unauthorized user');
+      error.status = 401;
+      throw error;
+    }
   },
 };
 

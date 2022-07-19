@@ -26,9 +26,10 @@ const postsController = {
   },
 
   edit: async (req, res) => {
+    const postId = req.params.id;
     const token = req.headers.authorization;
     const data = req.body;
-    const user = await postsService.validateUserThruLogin(token);
+    const user = await postsService.validateUserThruLogin(token, postId);
     await postsService.validateEditionValues(data);
     const editedPost = await postsService.edit(user);
 
