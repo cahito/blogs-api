@@ -140,12 +140,6 @@ const postsService = {
   },
 
   delete: async (postId) => {
-    const postExists = db.BlogPost.findByPk(postId);
-    if (!postExists) {
-      const error = new Error('Post does not exist');
-      error.status = 404;
-      throw error;
-    }
     const result = await db.BlogPost.destroy({
       where: {
         id: postId,
@@ -156,11 +150,13 @@ const postsService = {
   },
 
   search: async (q) => {
-    console.log('Esse é o q, no postsService.search: ', q);
-    let result = [];
-    if (!q || q.length === 0) return postsService.list();
-
-    [result] = await db.BlogPost.findAll({
+    const postList = await postsService.list();
+    if (!q || q.length === 0) return postList;
+    const result = await db.BlogPost.findAll({
+      include: [
+        { model: db.User, as: 'user', attributes: { exclude: ['password'] } },
+        { model: db.Category, as: 'categories', through: { attributes: [] } },
+      ],
       where: {
         [Op.or]: [
           { title: { [Op.like]: `%${q}%` } },
@@ -168,7 +164,7 @@ const postsService = {
         ],
       },
     });
-    console.log('result no retorno do search: ', result);
+
     return result;
   },
 };
